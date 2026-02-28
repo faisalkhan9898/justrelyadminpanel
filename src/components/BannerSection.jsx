@@ -41,6 +41,8 @@ const BannerSection = () => {
           )
         );
 
+        console.log(formData)
+
         setEditId(null);
       } else {
         const res = await api.post("/banner", formData);
