@@ -73,8 +73,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">
+    <div className="p-4 sm:p-8 bg-gray-100 min-h-screen">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">
         Contact (Get In Touch) Admin
       </h1>
 
@@ -84,7 +84,7 @@ const Contact = () => {
 
       {/* VIEW MODE */}
       {contact && !editMode && (
-        <div className="bg-white p-6 rounded-xl shadow-md mb-6">
+        <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md mb-6">
           <h2 className="text-xl font-semibold mb-4">Contact Details</h2>
 
           <p><strong>Phone:</strong> {contact.phone}</p>
@@ -114,7 +114,7 @@ const Contact = () => {
       {(!contact || editMode) && (
         <form
           onSubmit={handleSubmit}
-          className="bg-white p-6 rounded-xl shadow-md max-w-lg"
+          className="bg-white p-4 sm:p-6 rounded-xl shadow-md w-full max-w-lg"
         >
           <div className="space-y-4">
             <input

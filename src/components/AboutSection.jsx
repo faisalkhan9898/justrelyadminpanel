@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api, { BASE } from "../api/axios";
+import RichTextEditor from "./RichTextEditor";
 
 const AboutSection = () => {
   const [heading, setHeading] = useState("");
@@ -81,34 +82,34 @@ const AboutSection = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
 
-        <h2 className="text-3xl font-bold mb-8 text-gray-800">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-800">
           About Us
         </h2>
 
         {/* Form */}
-        <div className="bg-white shadow-lg rounded-2xl p-6 mb-10">
+        <div className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 mb-8 sm:mb-10">
           <form onSubmit={handleSubmit} className="space-y-5">
 
-            <input
-              type="text"
-              placeholder="Heading"
-              value={heading}
-              onChange={(e) => setHeading(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">Heading</label>
+              <RichTextEditor
+                value={heading}
+                onChange={setHeading}
+                placeholder="Write heading…"
+              />
+            </div>
 
-            <textarea
-              placeholder="Paragraph"
-              value={paragraph}
-              onChange={(e) => setParagraph(e.target.value)}
-              rows="4"
-              required
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">Paragraph</label>
+              <RichTextEditor
+                value={paragraph}
+                onChange={setParagraph}
+                placeholder="Write paragraph content…"
+              />
+            </div>
 
             <input
               type="file"
@@ -128,15 +129,15 @@ const AboutSection = () => {
         </div>
 
         {/* About List */}
-        <h3 className="text-2xl font-semibold mb-6 text-gray-700">
+        <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-gray-700">
           About Sections
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
           {aboutList.map((about) => (
             <div
               key={about._id}
-              className="bg-white shadow-md rounded-2xl p-6 hover:shadow-xl transition"
+              className="bg-white shadow-md rounded-2xl p-4 sm:p-6 hover:shadow-xl transition"
             >
               {about.image && (
                 <img
@@ -146,13 +147,15 @@ const AboutSection = () => {
                 />
               )}
 
-              <h4 className="text-lg font-semibold text-gray-800">
-                {about.heading}
-              </h4>
+              <div
+                className="text-lg font-semibold text-gray-800 rich-text-content"
+                dangerouslySetInnerHTML={{ __html: about.heading }}
+              />
 
-              <p className="text-gray-600 text-sm mt-2">
-                {about.paragraph}
-              </p>
+              <div
+                className="text-gray-600 text-sm mt-2 rich-text-content"
+                dangerouslySetInnerHTML={{ __html: about.paragraph }}
+              />
 
               <div className="flex justify-between mt-5">
                 <button

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api, { BASE } from "../api/axios";
+import RichTextEditor from "./RichTextEditor";
 
 const ServiceAdmin = () => {
   const [title, setTitle] = useState("");
@@ -88,34 +89,34 @@ const ServiceAdmin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-8">
       <div className="max-w-6xl mx-auto">
 
-        <h2 className="text-3xl font-bold mb-8 text-gray-800">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-gray-800">
           Service Admin Panel
         </h2>
 
         {/* Form */}
-        <div className="bg-white shadow-lg rounded-2xl p-6 mb-10">
+        <div className="bg-white shadow-lg rounded-2xl p-4 sm:p-6 mb-8 sm:mb-10">
           <form onSubmit={handleSubmit} className="space-y-5">
 
-            <input
-              type="text"
-              placeholder="Service Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">Service Title</label>
+              <RichTextEditor
+                value={title}
+                onChange={setTitle}
+                placeholder="Write service title…"
+              />
+            </div>
 
-            <textarea
-              placeholder="Service Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-              rows="4"
-              className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1">Service Description</label>
+              <RichTextEditor
+                value={description}
+                onChange={setDescription}
+                placeholder="Write service description…"
+              />
+            </div>
 
             <input
               type="file"
@@ -135,15 +136,15 @@ const ServiceAdmin = () => {
         </div>
 
         {/* Service List */}
-        <h3 className="text-2xl font-semibold mb-6 text-gray-700">
+        <h3 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 text-gray-700">
           All Services
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {services.map((service) => (
             <div
               key={service._id}
-              className="bg-white shadow-md rounded-2xl p-6 hover:shadow-xl transition"
+              className="bg-white shadow-md rounded-2xl p-4 sm:p-6 hover:shadow-xl transition"
             >
               <div className="flex justify-center mb-4">
                 {service.icon && (
@@ -155,13 +156,15 @@ const ServiceAdmin = () => {
                 )}
               </div>
 
-              <h4 className="text-lg font-semibold text-center text-gray-800">
-                {service.title}
-              </h4>
+              <div
+                className="text-lg font-semibold text-center text-gray-800 rich-text-content"
+                dangerouslySetInnerHTML={{ __html: service.title }}
+              />
 
-              <p className="text-gray-600 text-sm text-center mt-2">
-                {service.description}
-              </p>
+              <div
+                className="text-gray-600 text-sm text-center mt-2 rich-text-content"
+                dangerouslySetInnerHTML={{ __html: service.description }}
+              />
 
               <div className="flex justify-between mt-5">
                 <button

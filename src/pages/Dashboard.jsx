@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import BannerSection from "../components/BannerSection";
- import AboutSection from "../components/AboutSection";
- import USPSection from "../components/USPSection";
- import TeamAdmin from "../components/TeamAdmin";
- import Services from "../components/Services";
- import OurProjects  from "../components/OurProjects";
+import AboutSection from "../components/AboutSection";
+import USPSection from "../components/USPSection";
+import TeamAdmin from "../components/TeamAdmin";
+import Services from "../components/Services";
+import OurProjects from "../components/OurProjects";
 import Testimonial from "../components/Testimonial";
 import Contact from "../components/Contact";
 
@@ -16,19 +16,19 @@ const Dashboard = () => {
       case "banner":
         return <BannerSection />;
       case "about":
-         return <AboutSection />;
-       case "usp":
-         return <USPSection />;
-       case "who":
-         return <TeamAdmin />;
-       case "services":
-         return <Services />;
-         case "projects":
-         return <OurProjects />;
-         case "testimonial":
-         return <Testimonial />;
-          case "contact":
-         return <Contact />;
+        return <AboutSection />;
+      case "usp":
+        return <USPSection />;
+      case "who":
+        return <TeamAdmin />;
+      case "services":
+        return <Services />;
+      case "projects":
+        return <OurProjects />;
+      case "testimonial":
+        return <Testimonial />;
+      case "contact":
+        return <Contact />;
       default:
         return null;
     }
@@ -36,14 +36,14 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">
         Homepage Content Manager
       </h1>
 
       <select
         value={selectedSection}
         onChange={(e) => setSelectedSection(e.target.value)}
-        className="border px-4 py-2 rounded-lg mb-6"
+        className="w-full sm:w-auto border px-4 py-2 rounded-lg mb-4 sm:mb-6"
       >
         <option value="banner">Banner</option>
         <option value="about">About Us</option>

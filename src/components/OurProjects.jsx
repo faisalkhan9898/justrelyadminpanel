@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import api, { BASE } from "../api/axios"; // ✅ USE CUSTOM AXIOS
+import api, { BASE } from "../api/axios";
+import RichTextEditor from "./RichTextEditor"; // ✅ USE CUSTOM AXIOS
 
 export default function OurProjects() {
   const [projects, setProjects] = useState([]);
@@ -80,8 +81,8 @@ export default function OurProjects() {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6 text-center">
+    <div className="p-4 sm:p-8">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-center">
         Projects Section
       </h1>
 
@@ -94,17 +95,16 @@ export default function OurProjects() {
       {/* FORM */}
       <form
         onSubmit={handleSubmit}
-        className="bg-gray-100 p-6 rounded-lg shadow-md max-w-md mx-auto"
+        className="bg-gray-100 p-4 sm:p-6 rounded-lg shadow-md max-w-md mx-auto"
       >
-        <input
-          type="text"
-          name="title"
-          placeholder="Project Title"
-          value={formData.title}
-          onChange={handleChange}
-          className="w-full p-2 mb-4 border rounded"
-          required
-        />
+        <div className="mb-4">
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Project Title</label>
+          <RichTextEditor
+            value={formData.title}
+            onChange={(html) => setFormData({ ...formData, title: html })}
+            placeholder="Write project title…"
+          />
+        </div>
 
         <input
           type="file"
@@ -130,7 +130,7 @@ export default function OurProjects() {
       </form>
 
       {/* PROJECT GRID */}
-      <div className="grid md:grid-cols-3 gap-6 mt-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8 sm:mt-10">
         {projects.map((project) => (
           <div
             key={project._id}
@@ -142,9 +142,10 @@ export default function OurProjects() {
               className="w-full h-64 object-cover group-hover:scale-110 transition duration-300"
             />
 
-            <div className="absolute bottom-0 bg-black bg-opacity-50 w-full text-white text-center py-2">
-              {project.title}
-            </div>
+            <div
+              className="absolute bottom-0 bg-black bg-opacity-50 w-full text-white text-center py-2 rich-text-content"
+              dangerouslySetInnerHTML={{ __html: project.title }}
+            />
 
             <div className="absolute top-2 right-2 space-x-2">
               <button

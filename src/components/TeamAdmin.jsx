@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api, { BASE } from "../api/axios";
+import RichTextEditor from "./RichTextEditor";
 
 const TeamAdmin = () => {
   const [team, setTeam] = useState([]);
@@ -114,41 +115,39 @@ const TeamAdmin = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow max-w-4xl">
-      <h2 className="text-xl font-semibold mb-4">Team Section</h2>
+    <div className="bg-white p-4 sm:p-6 rounded-xl shadow max-w-4xl w-full">
+      <h2 className="text-lg sm:text-xl font-semibold mb-4">Team Section</h2>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name */}
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          placeholder="Enter Name"
-          className="w-full border px-4 py-2 rounded-lg"
-          required
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Name</label>
+          <RichTextEditor
+            value={formData.name}
+            onChange={(html) => setFormData({ ...formData, name: html })}
+            placeholder="Enter Name"
+          />
+        </div>
 
         {/* Role */}
-        <input
-          type="text"
-          name="role"
-          value={formData.role}
-          onChange={handleChange}
-          placeholder="Enter Role"
-          className="w-full border px-4 py-2 rounded-lg"
-          required
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Role</label>
+          <RichTextEditor
+            value={formData.role}
+            onChange={(html) => setFormData({ ...formData, role: html })}
+            placeholder="Enter Role"
+          />
+        </div>
 
         {/* Description */}
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          placeholder="Enter Description"
-          className="w-full border px-4 py-2 rounded-lg"
-          required
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+          <RichTextEditor
+            value={formData.description}
+            onChange={(html) => setFormData({ ...formData, description: html })}
+            placeholder="Enter Description"
+          />
+        </div>
 
         {/* Image */}
         <input
@@ -177,7 +176,7 @@ const TeamAdmin = () => {
       {/* Team List */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {team.map((member) => (
-          <div key={member._id} className="border p-4 rounded-lg shadow">
+          <div key={member._id} className="border p-3 sm:p-4 rounded-lg shadow">
             {member.image && (
               <img
                 src={`${BASE}/uploads/${member.image}`}
@@ -186,17 +185,20 @@ const TeamAdmin = () => {
               />
             )}
 
-            <h3 className="text-lg font-bold text-center mt-2">
-              {member.name}
-            </h3>
+            <div
+              className="text-lg font-bold text-center mt-2 rich-text-content"
+              dangerouslySetInnerHTML={{ __html: member.name }}
+            />
 
-            <p className="text-center text-gray-600">
-              {member.role}
-            </p>
+            <div
+              className="text-center text-gray-600 rich-text-content"
+              dangerouslySetInnerHTML={{ __html: member.role }}
+            />
 
-            <p className="text-sm text-center mt-2">
-              {member.description}
-            </p>
+            <div
+              className="text-sm text-center mt-2 rich-text-content"
+              dangerouslySetInnerHTML={{ __html: member.description }}
+            />
 
             <div className="flex justify-between mt-5">
               <button

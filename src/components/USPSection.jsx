@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api, { BASE } from "../api/axios";
+import RichTextEditor from "./RichTextEditor";
 
 const USPSection = () => {
   const [usps, setUsps] = useState([]);
@@ -100,19 +101,19 @@ const USPSection = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-xl shadow max-w-4xl">
-      <h2 className="text-2xl font-semibold mb-6">USP Section</h2>
+    <div className="bg-white p-4 sm:p-6 rounded-xl shadow max-w-4xl w-full">
+      <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">USP Section</h2>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4 mb-8">
-        <input
-          value={formData.title}
-          onChange={handleChange}
-          type="text"
-          className="w-full border px-4 py-2 rounded-lg"
-          placeholder="Please Enter USP Title"
-          required
-        />
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-1">USP Title</label>
+          <RichTextEditor
+            value={formData.title}
+            onChange={(html) => setFormData({ ...formData, title: html })}
+            placeholder="Write USP title…"
+          />
+        </div>
 
         <input
           type="file"
@@ -134,11 +135,11 @@ const USPSection = () => {
       </form>
 
       {/* USP List */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {usps.map((usp) => (
           <div
             key={usp._id}
-            className="border p-4 rounded-lg shadow-sm"
+            className="border p-3 sm:p-4 rounded-lg shadow-sm"
           >
             {usp.icon && (
               <img
@@ -148,7 +149,10 @@ const USPSection = () => {
               />
             )}
 
-            <h4 className="font-semibold">{usp.title}</h4>
+            <div
+              className="font-semibold rich-text-content"
+              dangerouslySetInnerHTML={{ __html: usp.title }}
+            />
 
             <div className="flex gap-3 mt-4">
               <button
