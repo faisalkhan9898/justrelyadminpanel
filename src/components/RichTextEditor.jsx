@@ -17,6 +17,7 @@ import Placeholder from "@tiptap/extension-placeholder";
 
 const FONT_FAMILIES = [
   { label: "Default", value: "" },
+  { label: "Poppins", value: "Poppins" },
   { label: "Inter", value: "Inter" },
   { label: "Arial", value: "Arial" },
   { label: "Georgia", value: "Georgia" },
