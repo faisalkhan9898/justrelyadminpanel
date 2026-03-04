@@ -2,22 +2,29 @@
 
 /* ─── Rich Text Content Display ─────────────────────────────────── */
 /* Restores HTML formatting inside view cards where rich-text HTML is rendered */
+
 .rich-text-content h1 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
   margin: 0.5rem 0;
 }
 
 .rich-text-content h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.4rem;
+  font-weight: 650;
   margin: 0.5rem 0;
 }
 
 .rich-text-content h3 {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 600;
   margin: 0.4rem 0;
+}
+
+.rich-text-content h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0.35rem 0;
 }
 
 .rich-text-content p {
@@ -32,8 +39,22 @@
   font-style: italic;
 }
 
+.rich-text-content u {
+  text-decoration: underline;
+}
+
 .rich-text-content s {
   text-decoration: line-through;
+}
+
+.rich-text-content sub {
+  vertical-align: sub;
+  font-size: 0.8em;
+}
+
+.rich-text-content sup {
+  vertical-align: super;
+  font-size: 0.8em;
 }
 
 .rich-text-content ul {
@@ -57,10 +78,59 @@
   padding-left: 1rem;
   color: #6b7280;
   margin: 0.5rem 0;
+  font-style: italic;
 }
 
 .rich-text-content hr {
   border: none;
   border-top: 2px solid #e5e7eb;
   margin: 1rem 0;
+}
+
+.rich-text-content a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.rich-text-content a:hover {
+  color: #1d4ed8;
+}
+
+.rich-text-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+}
+
+.rich-text-content pre {
+  background: #1e293b;
+  color: #e2e8f0;
+  font-family: "Courier New", monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.rich-text-content pre code {
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+}
+
+.rich-text-content code {
+  background: #f1f5f9;
+  color: #e11d48;
+  padding: 0.15rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+  font-family: "Courier New", monospace;
+}
+
+.rich-text-content mark {
+  border-radius: 2px;
+  padding: 0 2px;
 }
