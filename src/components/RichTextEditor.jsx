@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { Extension } from "@tiptap/core";
 import Underline from "@tiptap/extension-underline";
 import { TextStyle, Color, FontFamily, FontSize } from "@tiptap/extension-text-style";
 import Highlight from "@tiptap/extension-highlight";
@@ -18,6 +19,8 @@ import Placeholder from "@tiptap/extension-placeholder";
 const FONT_FAMILIES = [
   { label: "Default", value: "" },
   { label: "Poppins", value: "Poppins" },
+  { label: "Beyond The Mountain", value: "Beyond The Mountains" },
+  { label: "Great Vibes", value: "Great Vibes" },
   { label: "Inter", value: "Inter" },
   { label: "Arial", value: "Arial" },
   { label: "Georgia", value: "Georgia" },
@@ -29,7 +32,7 @@ const FONT_FAMILIES = [
 ];
 
 const FONT_SIZES = [
-  "12px", "14px", "16px", "18px", "20px", "24px", "28px", "32px", "36px", "48px",
+  "12px", "14px", "16px", "18px", "20px", "24px", "28px", "32px", "36px", "48px", "54px", "60px", "64px", "72px", "80px", "88px", "96px", "100px",
 ];
 
 const HEADING_LEVELS = [
@@ -39,6 +42,45 @@ const HEADING_LEVELS = [
   { label: "Heading 3", value: 3 },
   { label: "Heading 4", value: 4 },
 ];
+
+const LINE_HEIGHTS = ["1", "1.15", "1.5", "2", "2.5", "3", "4", "5", "10px", "20px", "30px", "40px", "50px"];
+
+/* ═══════════════════════════════════════════════════════════════════
+   Custom extensions
+   ═══════════════════════════════════════════════════════════════════ */
+
+const LineHeight = Extension.create({
+  name: "lineHeight",
+  addOptions() {
+    return {
+      types: ["heading", "paragraph"],
+      defaultLineHeight: "normal",
+    };
+  },
+  addAttributes() {
+    return {
+      lineHeight: {
+        default: this.options.defaultLineHeight,
+        renderHTML: attributes => {
+          if (attributes.lineHeight === this.options.defaultLineHeight) {
+            return {};
+          }
+          return {
+            style: `line-height: ${attributes.lineHeight}`,
+          };
+        },
+        parseHTML: element => element.style.lineHeight || this.options.defaultLineHeight,
+      },
+    };
+  },
+  addCommands() {
+    return {
+      setLineHeight: lineHeight => ({ commands }) => {
+        return this.options.types.every(type => commands.updateAttributes(type, { lineHeight }));
+      },
+    };
+  },
+});
 
 const COLOR_PRESETS = [
   "#000000", "#434343", "#666666", "#999999", "#b7b7b7", "#cccccc", "#d9d9d9", "#efefef", "#f3f3f3", "#ffffff",
@@ -161,6 +203,7 @@ const Toolbar = ({ editor }) => {
   const [headingOpen, setHeadingOpen] = useState(false);
   const [textColorOpen, setTextColorOpen] = useState(false);
   const [hlColorOpen, setHlColorOpen] = useState(false);
+  const [lineHeightOpen, setLineHeightOpen] = useState(false);
 
   if (!editor) return null;
 
@@ -175,6 +218,8 @@ const Toolbar = ({ editor }) => {
   const currentTextColor = editor.getAttributes("textStyle").color || "#000000";
   const currentHlColor =
     editor.getAttributes("highlight").color || "#ffff00";
+  const currentLineHeight =
+    editor.getAttributes("paragraph").lineHeight || "normal";
 
   /* ─── Link helper ─────────────────────────────────────────── */
   const setLink = useCallback(() => {
@@ -289,6 +334,40 @@ const Toolbar = ({ editor }) => {
               {s}
             </button>
           ))}
+        </Dropdown>
+
+        <Sep />
+
+        {/* Line Height */}
+        <Dropdown
+          trigger={`Line Height: ${currentLineHeight === "normal" ? "Def" : currentLineHeight}`}
+          isOpen={lineHeightOpen}
+          setIsOpen={setLineHeightOpen}
+        >
+          {LINE_HEIGHTS.map((lh) => (
+            <button
+              key={lh}
+              type="button"
+              className={`rte-dropdown-item ${currentLineHeight === lh ? "rte-dropdown-item--active" : ""
+                }`}
+              onClick={() => {
+                editor.chain().focus().setLineHeight(lh).run();
+                setLineHeightOpen(false);
+              }}
+            >
+              {lh}
+            </button>
+          ))}
+          <button
+            type="button"
+            className={`rte-dropdown-item ${currentLineHeight === "normal" ? "rte-dropdown-item--active" : ""}`}
+            onClick={() => {
+              editor.chain().focus().setLineHeight("normal").run();
+              setLineHeightOpen(false);
+            }}
+          >
+            Default
+          </button>
         </Dropdown>
       </div>
 
@@ -498,6 +577,7 @@ const RichTextEditor = ({
       Color,
       Highlight.configure({ multicolor: true }),
       FontFamily,
+      LineHeight,
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
